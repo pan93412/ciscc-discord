@@ -25,6 +25,11 @@ export default class Bot {
    */
   channel: Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel | undefined;
 
+  set Channel(channel: Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel) {
+    this.channel = channel;
+    console.info(`info: the default text channel has been set to ${this.channel.id}`);
+  }
+
   /**
    * Construct and set up this object.
    *
@@ -49,11 +54,10 @@ export default class Bot {
    */
   private registerChannelHandler() {
     this.client?.on('message', (message) => {
-      if (message.content === `!${this.identifier}::registerChannel`) {
+      if (message.content === this.cmd('RegisterChannel')) {
         if (Bot.checkPermission(message.member, 'MANAGE_ROLES')) {
-          this.channel = message.channel;
+          this.Channel = message.channel;
           message.reply(this.buildNotification('已經成功設定預設發言平台。')); // TODO: i18n
-          console.info(`info: the default text channel has been set to ${this.channel.id}`);
         } else {
           message.reply(this.buildNotification('您無權執行本動作。')); // TODO: i18n
         }
@@ -62,17 +66,12 @@ export default class Bot {
   }
 
   /**
-   * Check if the permission is satisfied.
-   *
-   * @param member The member object.
-   * @param permission The permission that needs to be satisfied.
-   */
-  static checkPermission(
-    member: Discord.GuildMember | null,
-    permission: Discord.PermissionString,
-  ): boolean {
-    if (member) return member.hasPermission(permission);
-    return false;
+   * Get the corresponded command that can be used on
+   * Discord from the desired command.
+   * */
+  cmd(command: string): string {
+    // !ciscc::cmdtest
+    return `!${this.identifier}::${command}`;
   }
 
   /**
@@ -96,6 +95,20 @@ export default class Bot {
    */
   buildNotification(message: string) {
     return `${message} (${this.identifier})`;
+  }
+
+  /**
+   * Check if the permission is satisfied.
+   *
+   * @param member The member object.
+   * @param permission The permission that needs to be satisfied.
+   */
+  static checkPermission(
+    member: Discord.GuildMember | null,
+    permission: Discord.PermissionString,
+  ): boolean {
+    if (member) return member.hasPermission(permission);
+    return false;
   }
 
   /**
