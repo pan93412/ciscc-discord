@@ -5,6 +5,11 @@ Last-Update-On: 1/2/2021
 The identifier of the created Bot object.
 By default, it should be `ciscc`.
 
-## `[Identifier]::SetChannel`
+## General Command Format
+```
+![Identifier]::[Command]
+```
+
+## `![Identifier]::SetChannel`
 Make the channel to which this command is sent to
 as the channel for sending the complaint messages.
