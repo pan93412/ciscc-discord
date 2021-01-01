@@ -46,15 +46,15 @@ export default class Bot {
       if (this.client) console.log(`info: logged in as ${this.client.user?.tag}`);
     });
 
-    this.registerChannelHandler();
+    this.setChannelHandler();
   }
 
   /**
    * The handler for setting the default channel to send.
    */
-  private registerChannelHandler() {
+  private setChannelHandler() {
     this.client?.on('message', (message) => {
-      if (message.content === this.cmd('RegisterChannel')) {
+      if (message.content === this.buildCommand('SetChannel')) {
         if (Bot.checkPermission(message.member, 'MANAGE_ROLES')) {
           this.Channel = message.channel;
           message.reply(this.buildNotification('已經成功設定預設發言平台。')); // TODO: i18n
@@ -66,10 +66,10 @@ export default class Bot {
   }
 
   /**
-   * Get the corresponded command that can be used on
+   * Build the corresponded command that can be used on
    * Discord from the desired command.
    * */
-  cmd(command: string): string {
+  buildCommand(command: string): string {
     // !ciscc::cmdtest
     return `!${this.identifier}::${command}`;
   }
