@@ -25,6 +25,9 @@ export default class Bot {
    */
   private channelId: string | undefined;
 
+  /**
+   * Receive the Channel object.
+   */
   async getChannel():
     Promise<
       Discord.Channel
@@ -39,6 +42,10 @@ export default class Bot {
     return undefined;
   }
 
+  /**
+   * Store the Channel object.
+   * @param channel The Channel object.
+   */
   setChannel(channel: Discord.Channel) {
     this.channelId = channel.id;
     console.info(`info: the default text channel has been set to ${channel.id}`);
