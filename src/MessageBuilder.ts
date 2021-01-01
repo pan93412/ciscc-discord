@@ -1,5 +1,8 @@
 import Message from './Message';
 
+/**
+ * The builder for @see Message
+ */
 export default class MessageBuilder {
     message: Message = new Message();
 
