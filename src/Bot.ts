@@ -8,7 +8,7 @@ export default class Bot {
   /**
    * SINGLETON MODE: The instance.
    */
-  instance: Bot | undefined;
+  private instance: Bot | undefined;
 
   /**
    * The identifier of this Discord bot.
@@ -21,13 +21,26 @@ export default class Bot {
   client: Discord.Client | undefined;
 
   /**
-   * The channel to send.
+   * The channel ID to send.
    */
-  channel: Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel | undefined;
+  private channelId: string | undefined;
 
-  set Channel(channel: Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel) {
-    this.channel = channel;
-    console.info(`info: the default text channel has been set to ${this.channel.id}`);
+  async getChannel():
+    Promise<
+      Discord.Channel
+        | Discord.TextChannel
+        | Discord.DMChannel
+        | Discord.NewsChannel
+        | undefined
+        > {
+    if (this.channelId) {
+      return this.client?.channels.fetch(this.channelId);
+    }
+    return undefined;
+  }
+
+  setChannel(channel: Discord.Channel) {
+    this.channelId = channel.id;
   }
 
   /**
@@ -56,7 +69,7 @@ export default class Bot {
     this.client?.on('message', (message) => {
       if (message.content === this.buildCommand('SetChannel')) {
         if (Bot.checkPermission(message.member, 'MANAGE_ROLES')) {
-          this.Channel = message.channel;
+          this.setChannel(message.channel);
           message.reply(this.buildNotification('已經成功設定預設發言平台。')); // TODO: i18n
         } else {
           message.reply(this.buildNotification('您無權執行本動作。')); // TODO: i18n
@@ -80,9 +93,15 @@ export default class Bot {
    * @param message The message object.
    * @see Message
    */
-  sendMessageObject(message: Message) {
-    if (this.channel) {
-      this.channel.send(message.toString());
+  async sendMessageObject(message: Message) {
+    const channel = await this.getChannel();
+
+    // hacky: we force `channel' to be Discord.TextChannel
+    // so we can use 'send' method. But we also check if
+    // `channel' has 'send' method since not every conditions
+    // support 'send' method.
+    if (channel && (<Discord.TextChannel>channel).send) {
+      (<Discord.TextChannel>channel).send(message.toString());
     } else {
       console.warn('warning: nobody specified the text channel to send.');
     }
