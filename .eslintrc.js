@@ -17,6 +17,13 @@ module.exports = {
   ],
   rules: {
     'import/extensions': [0, 'never'],
+    'no-console': [0, {
+      allow: [
+        'warn',
+        'error',
+        'console',
+      ],
+    }],
   },
   settings: {
     'import/parsers': {
@@ -25,7 +32,7 @@ module.exports = {
     'import/resolver': {
       // use <root>/tsconfig.json
       typescript: {
-        alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+        alwaysTryTypes: true,
       },
     },
   },
