@@ -43,7 +43,7 @@ export default class Bot {
     this.instance = this;
     this.client = new Discord.Client();
     this.client.on('ready', () => {
-      if (this.client) console.log(`info: logged in as ${this.client.user?.tag}`);
+      if (this.client) console.info(`info: logged in as ${this.client.user?.tag}`);
     });
 
     this.setChannelHandler();
