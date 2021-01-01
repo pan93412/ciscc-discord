@@ -1,15 +1,37 @@
 import Discord from 'discord.js';
 import Message from './Message';
 
+/**
+ * This class represents a Discord bot.
+ */
 export default class Bot {
+  /**
+   * SINGLETON MODE: The instance.
+   */
   instance: Bot | undefined;
 
+  /**
+   * The identifier of this Discord bot.
+   */
   identifier: string = 'ciscc';
 
+  /**
+   * The Discord client instance.
+   */
   client: Discord.Client | undefined;
 
+  /**
+   * The channel to send.
+   */
   channel: Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel | undefined;
 
+  /**
+   * Construct and set up this object.
+   *
+   * Note that this object is singleton,
+   * therefore any changes to this object
+   * will be applied to other Bot.
+   */
   constructor() {
     if (this.instance) return this.instance;
 
@@ -22,6 +44,9 @@ export default class Bot {
     this.registerChannelHandler();
   }
 
+  /**
+   * The handler for setting the default channel to send.
+   */
   private registerChannelHandler() {
     this.client?.on('message', (message) => {
       if (message.content === `!${this.identifier}::registerChannel`) {
@@ -36,6 +61,12 @@ export default class Bot {
     });
   }
 
+  /**
+   * Check if the permission is satisfied.
+   *
+   * @param member The member object.
+   * @param permission The permission that needs to be satisfied.
+   */
   static checkPermission(
     member: Discord.GuildMember | null,
     permission: Discord.PermissionString,
@@ -44,6 +75,12 @@ export default class Bot {
     return false;
   }
 
+  /**
+   * Send the message in the `message` object.
+   *
+   * @param message The message object.
+   * @see Message
+   */
   sendMessageObject(message: Message) {
     if (this.channel) {
       this.channel.send(message.toString());
@@ -52,10 +89,19 @@ export default class Bot {
     }
   }
 
+  /**
+   * Build the service notification message.
+   *
+   * @param message The original message to be sent.
+   */
   buildNotification(message: string) {
     return `${message} (${this.identifier})`;
   }
 
+  /**
+   * Login to Discord service.
+   * @param token The Discord token.
+   */
   async login(token: string): Promise<string | undefined> {
     return this.client?.login(token);
   }
