@@ -41,6 +41,7 @@ export default class Bot {
 
   setChannel(channel: Discord.Channel) {
     this.channelId = channel.id;
+    console.info(`info: the default text channel has been set to ${channel.id}`);
   }
 
   /**
