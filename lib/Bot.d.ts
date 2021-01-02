@@ -1,9 +1,11 @@
+/// <reference types="node" />
 import Discord from 'discord.js';
+import { EventEmitter } from 'events';
 import Message from './Message';
 /**
  * This class represents a Discord bot.
  */
-export default class Bot {
+export default class Bot extends EventEmitter {
     /**
      * SINGLETON MODE: The instance.
      */
@@ -24,6 +26,8 @@ export default class Bot {
      * Receive the Channel object.
      */
     getChannel(): Promise<Discord.Channel | Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel | undefined>;
+    get ChannelId(): string | undefined;
+    set ChannelId(channelId: string | undefined);
     /**
      * Store the Channel object.
      * @param channel The Channel object.
