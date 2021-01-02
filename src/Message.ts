@@ -3,10 +3,10 @@
  */
 export default class Message {
     /** The UTF-8 message to be sent. */
-    message: string = '';
+    message = '';
 
     /** @unused */
-    reviewer: string = '';
+    reviewer = '';
 
     // IMPL: Unix Timestamp?
     /** @unused */
@@ -15,7 +15,7 @@ export default class Message {
     /** @unused */
     reviewedAt: number = Date.now();
 
-    toString() {
+    toString(): string {
       return `[匿名] ${this.message}`;
     }
 }
