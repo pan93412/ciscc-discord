@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "link": "npm run build && cd dist && npm link"
+    "link": "npm run build && cd dist && npm link",
+    "lint": "eslint --fix"
   },
   "author": "pan93412",
   "license": "MIT",
