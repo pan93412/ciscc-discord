@@ -17,22 +17,11 @@ export default class Bot extends EventEmitter {
     /**
      * The Discord client instance.
      */
-    client: Discord.Client | undefined;
+    readonly client: Discord.Client | undefined;
     /**
      * The channel ID to send.
      */
     private channelId;
-    /**
-     * Receive the Channel object.
-     */
-    getChannel(): Promise<Discord.Channel | Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel | undefined>;
-    get ChannelId(): string | undefined;
-    set ChannelId(channelId: string | undefined);
-    /**
-     * Store the Channel object.
-     * @param channel The Channel object.
-     */
-    setChannel(channel: Discord.Channel): void;
     /**
      * Construct and set up this object.
      *
@@ -41,14 +30,22 @@ export default class Bot extends EventEmitter {
      * will be applied to other Bot.
      */
     constructor();
+    get ChannelId(): string | undefined;
+    set ChannelId(channelId: string | undefined);
+    /**
+     * Receive the Channel object.
+     */
+    getChannel(): Promise<Discord.Channel | Discord.TextChannel | Discord.DMChannel | Discord.NewsChannel | undefined>;
+    /**
+     * Store the Channel object.
+     * @param channel The Channel object.
+     */
+    setChannel(channel: Discord.Channel): void;
     /**
      * The handler for setting the default channel to send.
      */
     private setChannelHandler;
-    /**
-     * Build the corresponded command that can be used on
-     * Discord from the desired command.
-     * */
+    /** @see BuildCommand */
     buildCommand(command: string): string;
     /**
      * Send the message in the `message` object.
@@ -56,20 +53,9 @@ export default class Bot extends EventEmitter {
      * @param message The message object.
      * @see Message
      */
-    sendMessageObject(message: Message): Promise<void>;
-    /**
-     * Build the service notification message.
-     *
-     * @param message The original message to be sent.
-     */
+    sendMessageObject(message: Message): Promise<Discord.Message | undefined>;
+    /** @see BuildNotification */
     buildNotification(message: string): string;
-    /**
-     * Check if the permission is satisfied.
-     *
-     * @param member The member object.
-     * @param permission The permission that needs to be satisfied.
-     */
-    static checkPermission(member: Discord.GuildMember | null, permission: Discord.PermissionString): boolean;
     /**
      * Login to Discord service.
      * @param token The Discord token.

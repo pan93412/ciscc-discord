@@ -181,9 +181,24 @@
         "signature": "dc1a74b95a00593015297a102330102db942f419a7415d05a7b1aa34d89ed42f",
         "affectsGlobalScope": false
       },
+      "../src/utils/buildcommand.ts": {
+        "version": "c559e1eb1b9c1c85a8cf986287112880786ccfb7f5859ce4e71c77feeca7f095",
+        "signature": "9e2f68811f1a39b59f3eec3e5c68fec40e1b520448a8dd9bf178ea6ac1f16931",
+        "affectsGlobalScope": false
+      },
+      "../src/utils/buildnotification.ts": {
+        "version": "7f313721794e600867802d05e865a5de0fd8ed057064e2c9f9471552bbd93d98",
+        "signature": "8b097b64c83db2b0e73c1bc7b819cb8413cd3ae5c0dbfe19b57bd276dc8adb97",
+        "affectsGlobalScope": false
+      },
+      "../src/utils/checkpermission.ts": {
+        "version": "dd04af021525f8836463566812cbdea9d4427e8da227197d5e1fd1a2a0f48f2d",
+        "signature": "e79e5fe24f67e4d5cd05077d8acbc941fdb2d450d86911876849ef986b4e4d54",
+        "affectsGlobalScope": false
+      },
       "../src/bot.ts": {
-        "version": "b89120ae4f738f1cd99cffcf8464c3d7b97b1c4548de0629fb442d210b1f8416",
-        "signature": "29fdbcba53a221d1dfd998b3c95515ee3c823e64735ae65957d7c3fadca34f1b",
+        "version": "b42a0006001575378ec3064dee7289937712060b8205a6fcd01188fb26b29148",
+        "signature": "028c273cd8e491c996dc061526971d33229a46b15198814b90400ed009b1172f",
         "affectsGlobalScope": false
       },
       "../src/messagebuilder.ts": {
@@ -645,7 +660,10 @@
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/discord.js/typings/index.d.ts",
         "../src/eventslist.ts",
-        "../src/message.ts"
+        "../src/message.ts",
+        "../src/utils/buildcommand.ts",
+        "../src/utils/buildnotification.ts",
+        "../src/utils/checkpermission.ts"
       ],
       "../src/index.ts": [
         "../src/bot.ts",
@@ -654,6 +672,9 @@
       ],
       "../src/messagebuilder.ts": [
         "../src/message.ts"
+      ],
+      "../src/utils/checkpermission.ts": [
+        "../node_modules/discord.js/typings/index.d.ts"
       ]
     },
     "exportedModulesMap": {
@@ -839,6 +860,9 @@
       ],
       "../src/messagebuilder.ts": [
         "../src/message.ts"
+      ],
+      "../src/utils/checkpermission.ts": [
+        "../node_modules/discord.js/typings/index.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -929,7 +953,10 @@
       "../src/eventslist.ts",
       "../src/index.ts",
       "../src/message.ts",
-      "../src/messagebuilder.ts"
+      "../src/messagebuilder.ts",
+      "../src/utils/buildcommand.ts",
+      "../src/utils/buildnotification.ts",
+      "../src/utils/checkpermission.ts"
     ]
   },
   "version": "4.1.3"
