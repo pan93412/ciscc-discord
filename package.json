@@ -2,9 +2,11 @@
   "name": "ciscc-discord",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "link": "npm run build && cd dist && npm link"
   },
   "author": "pan93412",
   "license": "MIT",
