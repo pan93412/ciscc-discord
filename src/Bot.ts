@@ -42,13 +42,21 @@ export default class Bot {
     return undefined;
   }
 
+  get ChannelId(): string | undefined {
+    return this.channelId;
+  }
+
+  set ChannelId(channelId: string | undefined) {
+    this.channelId = channelId;
+    console.info(`info: the default text channel has been set to ${channelId}`);
+  }
+
   /**
    * Store the Channel object.
    * @param channel The Channel object.
    */
   setChannel(channel: Discord.Channel) {
-    this.channelId = channel.id;
-    console.info(`info: the default text channel has been set to ${channel.id}`);
+    this.ChannelId = channel.id;
   }
 
   /**
