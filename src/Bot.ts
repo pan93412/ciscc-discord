@@ -1,10 +1,12 @@
 import Discord from 'discord.js';
+import { EventEmitter } from 'events';
+import EventsList from './EventsList';
 import Message from './Message';
 
 /**
  * This class represents a Discord bot.
  */
-export default class Bot {
+export default class Bot extends EventEmitter {
   /**
    * SINGLETON MODE: The instance.
    */
@@ -13,7 +15,7 @@ export default class Bot {
   /**
    * The identifier of this Discord bot.
    */
-  identifier: string = 'ciscc';
+  identifier = 'ciscc';
 
   /**
    * The Discord client instance.
@@ -55,8 +57,9 @@ export default class Bot {
    * Store the Channel object.
    * @param channel The Channel object.
    */
-  setChannel(channel: Discord.Channel) {
+  setChannel(channel: Discord.Channel): void {
     this.ChannelId = channel.id;
+    this.emit(EventsList.CHANNEL_CHANGED);
   }
 
   /**
@@ -67,6 +70,7 @@ export default class Bot {
    * will be applied to other Bot.
    */
   constructor() {
+    super();
     if (this.instance) return this.instance;
 
     this.instance = this;
@@ -109,7 +113,7 @@ export default class Bot {
    * @param message The message object.
    * @see Message
    */
-  async sendMessageObject(message: Message) {
+  async sendMessageObject(message: Message): Promise<void> {
     const channel = await this.getChannel();
 
     // hacky: we force `channel' to be Discord.TextChannel
@@ -118,6 +122,7 @@ export default class Bot {
     // support 'send' method.
     if (channel && (<Discord.TextChannel>channel).send) {
       (<Discord.TextChannel>channel).send(message.toString());
+      this.emit(EventsList.MESSAGE_SENT);
     } else {
       console.warn('warning: nobody specified the text channel to send.');
     }
@@ -128,7 +133,7 @@ export default class Bot {
    *
    * @param message The original message to be sent.
    */
-  buildNotification(message: string) {
+  buildNotification(message: string): string {
     return `${message} (${this.identifier})`;
   }
 
