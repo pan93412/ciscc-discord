@@ -4,6 +4,8 @@ module.exports = {
     node: true,
   },
   extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     'airbnb-base',
   ],
   parser: '@typescript-eslint/parser',
@@ -24,6 +26,9 @@ module.exports = {
         'console',
       ],
     }],
+    // note you must disable the base rule as it can report incorrect errors
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
   settings: {
     'import/parsers': {
