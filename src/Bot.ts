@@ -23,7 +23,7 @@ export default class Bot extends EventEmitter {
   /**
    * The Discord client instance.
    */
-  client: Discord.Client | undefined;
+  readonly client: Discord.Client | undefined;
 
   /**
    * The channel ID to send.
@@ -50,6 +50,15 @@ export default class Bot extends EventEmitter {
     this.setChannelHandler();
   }
 
+  get ChannelId(): string | undefined {
+    return this.channelId;
+  }
+
+  set ChannelId(channelId: string | undefined) {
+    this.channelId = channelId;
+    console.info(`info: the default text channel has been set to ${channelId}`);
+  }
+
   /**
    * Receive the Channel object.
    */
@@ -65,15 +74,6 @@ export default class Bot extends EventEmitter {
       return this.client?.channels.fetch(this.channelId);
     }
     return undefined;
-  }
-
-  get ChannelId(): string | undefined {
-    return this.channelId;
-  }
-
-  set ChannelId(channelId: string | undefined) {
-    this.channelId = channelId;
-    console.info(`info: the default text channel has been set to ${channelId}`);
   }
 
   /**
