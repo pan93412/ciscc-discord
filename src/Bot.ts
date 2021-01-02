@@ -2,6 +2,9 @@ import Discord from 'discord.js';
 import { EventEmitter } from 'events';
 import EventsList from './EventsList';
 import Message from './Message';
+import BuildCommand from './utils/BuildCommand';
+import BuildNotification from './utils/BuildNotification';
+import CheckPermission from './utils/CheckPermission';
 
 /**
  * This class represents a Discord bot.
@@ -26,6 +29,26 @@ export default class Bot extends EventEmitter {
    * The channel ID to send.
    */
   private channelId: string | undefined;
+
+  /**
+   * Construct and set up this object.
+   *
+   * Note that this object is singleton,
+   * therefore any changes to this object
+   * will be applied to other Bot.
+   */
+  constructor() {
+    super();
+    if (this.instance) return this.instance;
+
+    this.instance = this;
+    this.client = new Discord.Client();
+    this.client.on('ready', () => {
+      if (this.client) console.info(`info: logged in as ${this.client.user?.tag}`);
+    });
+
+    this.setChannelHandler();
+  }
 
   /**
    * Receive the Channel object.
@@ -63,32 +86,12 @@ export default class Bot extends EventEmitter {
   }
 
   /**
-   * Construct and set up this object.
-   *
-   * Note that this object is singleton,
-   * therefore any changes to this object
-   * will be applied to other Bot.
-   */
-  constructor() {
-    super();
-    if (this.instance) return this.instance;
-
-    this.instance = this;
-    this.client = new Discord.Client();
-    this.client.on('ready', () => {
-      if (this.client) console.info(`info: logged in as ${this.client.user?.tag}`);
-    });
-
-    this.setChannelHandler();
-  }
-
-  /**
    * The handler for setting the default channel to send.
    */
   private setChannelHandler() {
     this.client?.on('message', (message) => {
       if (message.content === this.buildCommand('SetChannel')) {
-        if (Bot.checkPermission(message.member, 'MANAGE_ROLES')) {
+        if (CheckPermission(message.member, 'MANAGE_ROLES')) {
           this.setChannel(message.channel);
           message.reply(this.buildNotification('已經成功設定預設發言平台。')); // TODO: i18n
         } else {
@@ -98,13 +101,9 @@ export default class Bot extends EventEmitter {
     });
   }
 
-  /**
-   * Build the corresponded command that can be used on
-   * Discord from the desired command.
-   * */
+  /** @see BuildCommand */
   buildCommand(command: string): string {
-    // !ciscc::cmdtest
-    return `!${this.identifier}::${command}`;
+    return BuildCommand(this.identifier, command);
   }
 
   /**
@@ -128,27 +127,9 @@ export default class Bot extends EventEmitter {
     }
   }
 
-  /**
-   * Build the service notification message.
-   *
-   * @param message The original message to be sent.
-   */
+  /** @see BuildNotification */
   buildNotification(message: string): string {
-    return `${message} (${this.identifier})`;
-  }
-
-  /**
-   * Check if the permission is satisfied.
-   *
-   * @param member The member object.
-   * @param permission The permission that needs to be satisfied.
-   */
-  static checkPermission(
-    member: Discord.GuildMember | null,
-    permission: Discord.PermissionString,
-  ): boolean {
-    if (member) return member.hasPermission(permission);
-    return false;
+    return BuildNotification(this.identifier, message);
   }
 
   /**
