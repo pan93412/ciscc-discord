@@ -112,7 +112,7 @@ export default class Bot extends EventEmitter {
    * @param message The message object.
    * @see Message
    */
-  async sendMessageObject(message: Message): Promise<void> {
+  async sendMessageObject(message: Message): Promise<Discord.Message | undefined> {
     const channel = await this.getChannel();
 
     // hacky: we force `channel' to be Discord.TextChannel
@@ -120,11 +120,13 @@ export default class Bot extends EventEmitter {
     // `channel' has 'send' method since not every conditions
     // support 'send' method.
     if (channel && (<Discord.TextChannel>channel).send) {
-      (<Discord.TextChannel>channel).send(message.toString());
+      const sentMessage = await (<Discord.TextChannel>channel).send(message.toString());
       this.emit(EventsList.MESSAGE_SENT, message);
-    } else {
-      console.warn('warning: nobody specified the text channel to send.');
+      return sentMessage;
     }
+
+    console.warn('warning: nobody specified the text channel to send.');
+    return undefined;
   }
 
   /** @see BuildNotification */
