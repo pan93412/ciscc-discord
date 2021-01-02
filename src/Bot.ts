@@ -33,11 +33,11 @@ export default class Bot extends EventEmitter {
   async getChannel():
     Promise<
       Discord.Channel
-        | Discord.TextChannel
-        | Discord.DMChannel
-        | Discord.NewsChannel
-        | undefined
-        > {
+      | Discord.TextChannel
+      | Discord.DMChannel
+      | Discord.NewsChannel
+      | undefined
+      > {
     if (this.channelId) {
       return this.client?.channels.fetch(this.channelId);
     }
@@ -59,7 +59,7 @@ export default class Bot extends EventEmitter {
    */
   setChannel(channel: Discord.Channel): void {
     this.ChannelId = channel.id;
-    this.emit(EventsList.CHANNEL_CHANGED);
+    this.emit(EventsList.CHANNEL_CHANGED, channel.id);
   }
 
   /**
@@ -122,7 +122,7 @@ export default class Bot extends EventEmitter {
     // support 'send' method.
     if (channel && (<Discord.TextChannel>channel).send) {
       (<Discord.TextChannel>channel).send(message.toString());
-      this.emit(EventsList.MESSAGE_SENT);
+      this.emit(EventsList.MESSAGE_SENT, message);
     } else {
       console.warn('warning: nobody specified the text channel to send.');
     }
