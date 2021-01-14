@@ -1,4 +1,5 @@
 import Message from './Message';
+import removeMentions from './utils/RemoveMentions';
 
 /**
  * The builder for @see Message
@@ -22,6 +23,6 @@ export default class MessageBuilder {
     }
 
     build(): Message {
-      return this.message;
+      return removeMentions(this.message);
     }
 }
