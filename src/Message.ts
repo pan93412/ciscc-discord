@@ -9,7 +9,6 @@ export default class Message {
     reviewer = '';
 
     // IMPL: Unix Timestamp?
-    /** @unused */
     submittedAt: number = Date.now();
 
     /** @unused */
