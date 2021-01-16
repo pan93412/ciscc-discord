@@ -18,7 +18,7 @@ export default class Message {
       return [
         `[匿名] ${this.message}`,
         '',
-        `發表時間：${new Date(this.submittedAt).toLocaleString()}`,
+        `發表時間：${new Date(this.submittedAt).toLocaleString('en-US', { timeZone: 'Asia/Taipei' })}`,
       ].join('\r\n');
     }
 }
