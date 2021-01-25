@@ -1,4 +1,5 @@
 import Message from './Message';
+import ReferenceNewline from './utils/ReferenceNewline';
 import RemoveMentions from './utils/RemoveMentions';
 
 /**
@@ -8,7 +9,7 @@ export default class MessageBuilder {
     message: Message = new Message();
 
     setMessage(message: string): MessageBuilder {
-      this.message.message = message;
+      this.message.message = RemoveMentions(ReferenceNewline(message));
       return this;
     }
 
@@ -23,6 +24,6 @@ export default class MessageBuilder {
     }
 
     build(): Message {
-      return RemoveMentions(this.message);
+      return this.message;
     }
 }
