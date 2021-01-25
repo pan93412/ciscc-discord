@@ -1,6 +1,6 @@
 {
   "name": "ciscc-discord",
-  "version": "0.1.0-dev-c6d6d88",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
