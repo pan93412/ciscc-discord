@@ -1,14 +1,12 @@
-import Message from "../Message";
-
 /**
  * Removes dangerous pings such as @everyone and @here from the message.
  * 
  * @param message The message object
  * @see {Message}
  */
-export default function RemoveMentions(message: Message): Message {
+export default function RemoveMentions(message: string): string {
     // We adds a zero width space to the ping.
-    message.message = message.message.replace(/@([^<>@ ]*)/gmsu, (_match, target) => {
+    message = message.replace(/@([^<>@ ]*)/gmsu, (_match, target) => {
         if (target.match(/^[&!]?\d+$/)) {
             return `@${target}`;
         } else {
