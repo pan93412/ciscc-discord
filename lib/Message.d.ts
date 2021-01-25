@@ -6,7 +6,6 @@ export default class Message {
     message: string;
     /** @unused */
     reviewer: string;
-    /** @unused */
     submittedAt: number;
     /** @unused */
     reviewedAt: number;
